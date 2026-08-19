@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ESCOBARBET</title>
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<style>
+body{background:black;color:white;text-align:center;padding:20px}
+.box{background:#111;padding:20px;border-radius:10px;margin:10px}
+button{background:green;color:white;padding:15px;width:100%;border:none;border-radius:5px}
+input{padding:12px;width:90%;margin:8px;border-radius:5px;border:none}
+</style>
+</head>
+<body>
+<h1>ESCOBARBET</h1>
+<div class="box">
+<h2>DEPOSIT</h2>
+<input id="email" placeholder="Email">
+<input id="amount" placeholder="Amount" type="number">
+<button onclick="deposit()">DEPOSIT</button>
+<p>Balance: N<span id="bal">0</span></p>
+</div>
+<div class="box">
+<h2>WITHDRAW</h2>
+<input id="wname" placeholder="Account Name">
+<input id="wbank" placeholder="Bank">
+<input id="wacc" placeholder="Account No">
+<input id="wamount" placeholder="Withdraw Amount" type="number">
+<button style="background:orange" onclick="withdraw()">WITHDRAW</button>
+</div>
+<script>
+let balance=0;
+function deposit(){
+let email=document.getElementById('email').value;
+let amt=document.getElementById('amount').value*100;
+let h=PaystackPop.setup({
+key:'pk_live_89ab9b264b44f3af2086112ed24630104cb0f93e',
+email:email,amount:amt,currency:'NGN',
+callback:function(r){balance+=amt/100;document.getElementById('bal').innerText=balance;alert('Deposit Success');},
+onClose:function(){}
+});
+h.openIframe();
+}
+function withdraw(){
+let w=document.getElementById('wamount').value;
+if(balance<w){alert('Low balance');return;}
+balance-=w;document.getElementById('bal').innerText=balance;
+alert('Withdraw request sent - pay manually via bank');
+}
+</script>
+</body>
+  </html>
